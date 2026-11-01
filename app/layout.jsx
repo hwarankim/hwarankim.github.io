@@ -1,4 +1,5 @@
 import './globals.css';
+import FolderTransition from '../components/FolderTransition';
 import Reveal from '../components/Reveal';
 import { site } from '../lib/site';
 
@@ -25,6 +26,7 @@ export default function RootLayout({ children }) {
       <body>
         {children}
         <Reveal />
+        <FolderTransition />
       </body>
     </html>
   );

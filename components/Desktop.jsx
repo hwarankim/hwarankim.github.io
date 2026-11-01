@@ -55,9 +55,22 @@ export default function Desktop() {
   }
 
   function onClick(e) {
-    if (!justDragged.current) return;
-    justDragged.current = false;
-    e.preventDefault();
+    if (justDragged.current) {
+      justDragged.current = false;
+      e.preventDefault();
+      return;
+    }
+    // A new-tab click, or a visitor who asked for less motion, gets the plain link.
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const link = e.currentTarget;
+    const icon = link.querySelector('img');
+    const open = new CustomEvent('folder:open', {
+      cancelable: true,
+      detail: { href: link.getAttribute('href'), rect: icon.getBoundingClientRect(), source: icon },
+    });
+    // The transition cancels the event when it takes over; otherwise the link just navigates.
+    if (!window.dispatchEvent(open)) e.preventDefault();
   }
 
   return (

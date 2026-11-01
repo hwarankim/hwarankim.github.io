@@ -544,6 +544,17 @@ a:hover { text-decoration-thickness: 3px; }
   .stamp { width: 132px; }
 }
 
+/* ---------- Folder opening: the paper fills the screen, then the page appears ---------- */
+
+.folder-stage { position: fixed; inset: 0; z-index: 100; overflow: hidden; }
+.folder-stage[hidden] { display: none; }
+.folder-stage-art {
+  position: absolute; top: 0; left: 0; width: 512px; height: 416px;
+  transform-origin: 0 0; will-change: transform;
+}
+.folder-stage-art img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; }
+.folder-stage-front { will-change: transform, opacity; backface-visibility: hidden; }
+
 /* ---------- Motion ---------- */
 
 @keyframes rise { from { opacity: 0; transform: translateY(24px); } }
