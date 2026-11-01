@@ -93,9 +93,32 @@ a:hover { text-decoration-thickness: 3px; }
 
 .desk { position: relative; min-height: 100svh; overflow: hidden; background: var(--ground); }
 
-.desk-menubar {
-  position: fixed; top: 0; left: 0; z-index: 10;
-  width: 100%; height: auto; pointer-events: none;
+.menubar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  height: 24px; padding: 0 18px; overflow: hidden;
+  background: rgba(227, 211, 200, 0.82); color: var(--ink);
+  font-size: var(--step-small); line-height: 1; letter-spacing: 0; white-space: nowrap;
+  user-select: none; -webkit-user-select: none;
+}
+.menubar-left, .menubar-right, .menubar-icons, .menubar-clock { display: flex; align-items: center; }
+.menubar-left { gap: 20px; min-width: 0; }
+.menubar-mark { display: block; width: 18px; height: 18px; flex: none; }
+.menubar-mark text { font-family: var(--font); }
+.menubar-app { font-weight: 500; }
+.menubar-right { gap: 20px; }
+.menubar-icons { gap: 18px; }
+.menubar-icons svg { display: block; }
+.menubar-clock { gap: 10px; font-variant-numeric: tabular-nums; }
+
+@media (max-width: 899px) {
+  .menubar-menu { display: none; }
+}
+@media (max-width: 599px) {
+  .menubar { padding: 0 14px; }
+  .menubar-left, .menubar-right, .menubar-icons { gap: 12px; }
+  .menubar-icons svg:nth-child(n + 3) { display: none; }
+  .menubar-date { display: none; }
 }
 
 .desk-grid {
@@ -151,7 +174,7 @@ a:hover { text-decoration-thickness: 3px; }
 }
 
 @media (max-width: 599px) {
-  .desk-grid { grid-template-columns: 1fr; row-gap: 24px; padding-top: 44px; }
+  .desk-grid { grid-template-columns: 1fr; row-gap: 24px; padding-top: 52px; }
   .desk-role { margin-top: 12px; }
   .desk-lead { margin-top: 20px; }
   .desk-intro .actions { margin-top: 24px; gap: 12px; }
@@ -554,6 +577,13 @@ a:hover { text-decoration-thickness: 3px; }
 }
 .folder-stage-art img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; }
 .folder-stage-front { will-change: transform, opacity; backface-visibility: hidden; }
+.folder-stage-art .folder-stage-preview { inset: auto; object-fit: cover; object-position: top center; }
+
+/* Arriving through a folder, the page is already where the screenshot left it: no entrance. */
+.via-folder .hero-bg,
+.via-folder .sheet,
+.via-folder .sheet-folder,
+.via-folder .hero-caption { animation: none; }
 
 /* ---------- Motion ---------- */
 
@@ -567,7 +597,7 @@ a:hover { text-decoration-thickness: 3px; }
 .desk-lead { animation: rise 600ms var(--ease) 160ms both; }
 .desk-intro .actions { animation: rise 600ms var(--ease) 240ms both; }
 .desk-photo { animation: rise 800ms var(--ease) 120ms both; }
-.desk-menubar { animation: drop 500ms var(--ease) both; }
+.menubar { animation: drop 500ms var(--ease) both; }
 .desk-folders li { animation: pop 500ms var(--ease) calc(360ms + var(--i) * 80ms) both; }
 .desk-folders .folder-label { animation: rise 400ms var(--ease) calc(560ms + var(--i) * 80ms) both; }
 

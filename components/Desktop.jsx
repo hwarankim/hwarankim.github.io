@@ -1,7 +1,9 @@
 'use client';
 
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { folders, site } from '../lib/site';
+import { previewFor } from './FolderTransition';
+import MenuBar from './MenuBar';
 
 // The live thing: on a wide screen with a mouse, folders can be dragged around the desktop.
 // A plain click, a tap or Enter still opens them, because each folder is an ordinary link.
@@ -10,6 +12,11 @@ export default function Desktop() {
   const drag = useRef(null);
   const offsets = useRef({});
   const justDragged = useRef(false);
+
+  // Fetch the screenshots printed on each folder's paper before anyone clicks.
+  useEffect(() => {
+    folders.forEach((f) => { new Image().src = previewFor(f.href, window.innerWidth); });
+  }, []);
 
   function onPointerDown(e) {
     if (e.pointerType !== 'mouse' || e.button !== 0 || window.innerWidth < 1200) return;
@@ -75,7 +82,7 @@ export default function Desktop() {
 
   return (
     <main className="desk" ref={deskRef}>
-      <img className="desk-menubar" src="/menubar.png" alt="" width="2880" height="48" />
+      <MenuBar />
       <div className="desk-grid">
         <div className="desk-intro">
           <h1 className="desk-name">{site.name}</h1>
