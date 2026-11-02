@@ -1,99 +1,49 @@
-import { FolderBack, FolderHero, Pic, TopBar } from '../../components/Folder';
+import { BinderClip, CoffeeRing, Envelope, Eraser, Marker, Mug, PaperClip, Pencil, Ruler } from '../../components/DeskThings';
+import FolderStack from '../../components/FolderStack';
+import { TopBar } from '../../components/Folder';
 import { site } from '../../lib/site';
+import { work } from '../../lib/work';
 
 export const metadata = { title: 'Work experience' };
 
-// Every role is a placeholder until hwaran confirms the details.
-const roles = [
-  { role: '[Role]', employer: '[Employer]', city: '[City]', dates: '[Dates]', kind: '[Marketing, research or other]', tone: 'kraft', tab: 'wash' },
-  { role: '[Role]', employer: '[Employer]', city: '[City]', dates: '[Dates]', kind: '[Marketing, research or other]', tone: 'wash', tab: 'kraft' },
-  { role: '[Role]', employer: '[Employer]', city: '[City]', dates: '[Dates]', kind: '[Marketing, research or other]', tone: 'bone', tab: 'wash' },
-];
-
-const skills = [
-  { name: 'Marketing', kind: 'Discipline', level: 'Major, NC State' },
-  { name: 'Philosophy', kind: 'Discipline', level: 'Minor, NC State' },
-  { name: 'International studies', kind: 'Discipline', level: 'Minor, NC State' },
-  { name: '[Language]', kind: 'Language', level: '[Level]' },
-  { name: '[Language]', kind: 'Language', level: '[Level]' },
-  { name: '[Software or platform]', kind: 'Tool', level: '[Level]' },
-  { name: '[Software or platform]', kind: 'Tool', level: '[Level]' },
-  { name: '[Analytics tool]', kind: 'Tool', level: '[Level]' },
-];
-
+// The page is a desk. The title sheet and a sticky note stick out from under the top folder,
+// the folders lie in the middle, and more paper, a mug and odds and ends are scattered around.
 export default function WorkExperience() {
   return (
     <>
       <TopBar current="/work-experience/" />
-      <main>
-        <FolderHero
-          title="Work experience"
-          bg="raleigh"
-          tone="wash"
-          sentence="My work so far, filed one folder per job, with the details on my resume."
-          actions={
-            <>
-              <a className="btn btn-primary" href={site.linkedin} rel="me noopener" target="_blank">LinkedIn</a>
-              <a className="text-link" href={site.resume}>Resume (PDF)</a>
-            </>
-          }
-        />
-
-        <section className="jobs section" aria-labelledby="jobs-title">
-          <h2 id="jobs-title" className="head" data-reveal>Experience</h2>
-          <ol className="jobs-stack">
-            {roles.map((r, i) => (
-              <li key={i} className={`job job-${r.tone}`} style={{ '--i': i }}>
-                <div className="job-strip">
-                  <h3 className={`job-tab job-tab-${r.tab}`}>{r.role}</h3>
-                </div>
-                <div className="job-body">
-                  <div className="job-who" data-reveal>
-                    <p className="job-employer">{r.employer}</p>
-                    <p>{r.city}</p>
-                    <p>{r.dates}</p>
-                    <p>{r.kind}</p>
-                  </div>
-                  <div className="job-what" data-reveal>
-                    <p>[One sentence on what the team does and who it serves.]</p>
-                    <ul>
-                      <li>[What you did, and what changed because of it.]</li>
-                      <li>[A second responsibility, with its result.]</li>
-                      <li>[A tool, market or audience you worked with.]</li>
-                    </ul>
-                    <a className="text-link" href={`mailto:${site.email}?subject=${encodeURIComponent('About your role at [Employer]')}`}>
-                      Ask me about this role
-                    </a>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ol>
+      <main className="worktop">
+        <section className="loose loose-title" aria-labelledby="page-title">
+          <PaperClip className="desk-clip" id="clip-title" />
+          <h1 id="page-title">Work Experience</h1>
         </section>
+        <p className="loose loose-note">
+          Paper grain from{' '}
+          <a href="https://commons.wikimedia.org/wiki/File:Kraft_tileable_1024x1024.png">Kraft tileable</a>{' '}
+          by Coyau, public domain.
+        </p>
+        <CoffeeRing className="desk-thing desk-ring" />
+        <Pencil className="desk-thing desk-pencil" />
+        <Eraser className="desk-thing desk-eraser" />
+        <PaperClip className="desk-thing desk-clip-loose" id="clip-loose" />
 
-        <section className="skills section" aria-labelledby="skills-title">
-          <div className="skills-list">
-            <h2 id="skills-title" className="head" data-reveal>Skills and tools</h2>
-            <table data-reveal>
-              <caption className="visually-hidden">Skills, what kind each is, and level</caption>
-              <thead className="visually-hidden">
-                <tr><th scope="col">Skill</th><th scope="col">Kind</th><th scope="col">Level or source</th></tr>
-              </thead>
-              <tbody>
-                {skills.map((s, i) => (
-                  <tr key={i}>
-                    <th scope="row">{s.name}</th>
-                    <td>{s.kind}</td>
-                    <td>{s.level}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <Pic name="jongno" className="skills-pic" />
-        </section>
+        <FolderStack work={work} />
+
+        <Envelope className="desk-thing desk-envelope" />
+        <div className="loose loose-graph" aria-hidden="true">
+          <BinderClip className="desk-binder" />
+        </div>
+        <div className="loose loose-ruled" aria-hidden="true" />
+        <p className="loose loose-card">
+          <span className="loose-card-name">{site.name}</span>
+          <span>{site.role}</span>
+          <a href={site.linkedin} rel="me noopener" target="_blank">linkedin.com/in/hwaran-kim</a>
+        </p>
+        <PaperClip className="desk-thing desk-clip-card" id="clip-card" />
+        <Mug className="desk-thing desk-mug" />
+        <Ruler className="desk-thing desk-ruler" />
+        <Marker className="desk-thing desk-marker" />
       </main>
-      <FolderBack current="/work-experience/" stamp="ddp" credits={['raleigh', 'jongno']} />
     </>
   );
 }
