@@ -108,8 +108,9 @@ export function CoffeeRing({ className, id = 'ring' }) {
   );
 }
 
-// A white mug of espresso from above: lit ceramic, a dim inner wall, crema at the rim and the
-// window reflected on the coffee.
+// A white mug of black coffee from above. The ceramic is lit and its inner wall dim; the coffee is
+// a dark mirror: a window caught sharp on its surface, the rim reflected along the far edge, a pale
+// meniscus where it climbs the cup, a few bubbles, and the faintest ripple.
 export function Mug({ className, id = 'mug' }) {
   return (
     <svg className={className} viewBox="0 0 220 180" width="220" height="180" aria-hidden="true">
@@ -123,12 +124,22 @@ export function Mug({ className, id = 'mug' }) {
           <stop offset="0" stopColor="#BDB3A6" />
           <stop offset="1" stopColor="#FBF8F3" />
         </linearGradient>
-        <radialGradient id={`${id}-coffee`} cx="0.5" cy="0.5" r="0.5">
-          <stop offset="0" stopColor="#5C3A27" />
-          <stop offset="0.82" stopColor="#4A2D1D" />
-          <stop offset="0.93" stopColor="#8C5D3E" />
-          <stop offset="1" stopColor="#6B4329" />
+        <radialGradient id={`${id}-coffee`} cx="0.56" cy="0.58" r="0.56">
+          <stop offset="0" stopColor="#2A160C" />
+          <stop offset="0.7" stopColor="#331C0F" />
+          <stop offset="0.88" stopColor="#452715" />
+          <stop offset="0.96" stopColor="#6E4428" />
+          <stop offset="1" stopColor="#4B2D19" />
         </radialGradient>
+        <radialGradient id={`${id}-sheen`} cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0" stopColor="#FFFFFF" stopOpacity="0.22" />
+          <stop offset="1" stopColor="#FFFFFF" stopOpacity="0" />
+        </radialGradient>
+        <filter id={`${id}-ripple`} x="0" y="0" width="100%" height="100%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.05 0.03" numOctaves="2" seed="5" />
+          <feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.11 -0.035" />
+        </filter>
+        <filter id={`${id}-crisp`}><feGaussianBlur stdDeviation="0.7" /></filter>
         <linearGradient id={`${id}-handle`} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#FFFFFF" />
           <stop offset="1" stopColor="#CFC6BA" />
@@ -141,9 +152,25 @@ export function Mug({ className, id = 'mug' }) {
       <circle cx="86" cy="90" r="67" fill={`url(#${id}-wall)`} />
       <circle cx="86" cy="90" r="62" fill={`url(#${id}-coffee)`} />
       <g clipPath={`url(#${id}-cup)`}>
-        {/* the rim blocks the light from the coffee nearest it */}
-        <circle cx="74" cy="78" r="66" fill="none" stroke="#1E120B" strokeOpacity="0.45" strokeWidth="14" filter={`url(#${id}-soft)`} />
-        <ellipse cx="66" cy="64" rx="24" ry="9" fill="#FFFFFF" fillOpacity="0.32" transform="rotate(-34 66 64)" filter={`url(#${id}-soft)`} />
+        <rect x="24" y="28" width="124" height="124" filter={`url(#${id}-ripple)`} />
+        {/* the rim keeps the light off the coffee nearest it */}
+        <circle cx="76" cy="80" r="66" fill="none" stroke="#120904" strokeOpacity="0.5" strokeWidth="12" filter={`url(#${id}-soft)`} />
+        {/* the meniscus climbing the wall, and the dark line where the surface bends */}
+        <circle cx="86" cy="90" r="61" fill="none" stroke="#B07D55" strokeOpacity="0.55" strokeWidth="2.2" filter={`url(#${id}-crisp)`} />
+        <circle cx="86" cy="90" r="58.8" fill="none" stroke="#120904" strokeOpacity="0.45" strokeWidth="1.2" />
+        {/* a broad sheen, then the window caught sharp in it, bent along the surface */}
+        <ellipse cx="68" cy="68" rx="34" ry="22" fill={`url(#${id}-sheen)`} transform="rotate(-36 68 68)" />
+        <path d="M44 74c6-14 20-26 36-30l2 7c-14 5-26 15-31 27Z" fill="#FFFFFF" fillOpacity="0.62" filter={`url(#${id}-crisp)`} />
+        <path d="M54 82c4-8 11-15 19-19l1.5 3.5c-7 4-13 10-16.5 17Z" fill="#FFFFFF" fillOpacity="0.28" filter={`url(#${id}-crisp)`} />
+        {/* the far rim, lit, mirrored in the coffee */}
+        <path d="M126 112a52 52 0 0 1-40 34" fill="none" stroke="#F3E6D8" strokeOpacity="0.32" strokeWidth="3" strokeLinecap="round" filter={`url(#${id}-crisp)`} />
+        {/* bubbles stuck at the edge */}
+        {[[132, 104, 2.2], [128, 112, 1.6], [134, 96, 1.3], [124, 119, 1.9], [119, 125, 1.2], [136, 89, 1], [130, 117, 1]].map(([x, y, r]) => (
+          <g key={`${x}-${y}`}>
+            <circle cx={x} cy={y} r={r} fill="#6E4428" stroke="#C49A75" strokeOpacity="0.6" strokeWidth="0.5" />
+            <circle cx={x - r * 0.35} cy={y - r * 0.35} r={r * 0.35} fill="#FFFFFF" fillOpacity="0.8" />
+          </g>
+        ))}
       </g>
       <circle cx="86" cy="90" r="75" fill="none" stroke="#FFFFFF" strokeOpacity="0.8" strokeWidth="1.5" strokeDasharray="120 400" transform="rotate(170 86 90)" />
     </svg>
@@ -175,30 +202,88 @@ export function Ruler({ className, id = 'ruler' }) {
   );
 }
 
-// A periwinkle highlighter: a round barrel, so the light runs along it in a band.
+// A periwinkle highlighter with its cap posted on the end. Round barrel, so the light runs along it
+// in a band; a ribbed grip and pocket clip on the cap, the moulding seam, a ridged nose and a felt
+// chisel tip. The print on the barrel is a made-up maker, not a real brand.
 export function Marker({ className, id = 'marker' }) {
+  const ribs = Array.from({ length: 8 }, (_, i) => 60 + i * 2);
   return (
-    <svg className={className} viewBox="0 0 240 34" width="240" height="34" aria-hidden="true">
+    <svg className={className} viewBox="0 0 282 30" width="282" height="30" aria-hidden="true">
       <defs>
         <linearGradient id={`${id}-barrel`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#7C92B1" />
-          <stop offset="0.22" stopColor="#D3DEEC" />
-          <stop offset="0.5" stopColor="#9FB4D0" />
-          <stop offset="1" stopColor="#62789A" />
+          <stop offset="0" stopColor="#71879F" />
+          <stop offset="0.16" stopColor="#B7C8DE" />
+          <stop offset="0.26" stopColor="#E3EBF5" />
+          <stop offset="0.42" stopColor="#A7BBD5" />
+          <stop offset="0.8" stopColor="#7E95B5" />
+          <stop offset="1" stopColor="#5A7093" />
         </linearGradient>
         <linearGradient id={`${id}-cap`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#4F6074" />
-          <stop offset="0.22" stopColor="#8D9CAE" />
-          <stop offset="0.5" stopColor="#3D4D5C" />
-          <stop offset="1" stopColor="#222C36" />
+          <stop offset="0" stopColor="#3F4E5E" />
+          <stop offset="0.18" stopColor="#7E8EA1" />
+          <stop offset="0.28" stopColor="#A9B6C5" />
+          <stop offset="0.45" stopColor="#465769" />
+          <stop offset="1" stopColor="#1C242D" />
         </linearGradient>
+        <linearGradient id={`${id}-clip`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#9AA8B8" />
+          <stop offset="0.4" stopColor="#5C6C7E" />
+          <stop offset="1" stopColor="#2E3945" />
+        </linearGradient>
+        <linearGradient id={`${id}-nose`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#5D7394" />
+          <stop offset="0.3" stopColor="#B4C4DA" />
+          <stop offset="1" stopColor="#4B6082" />
+        </linearGradient>
+        <filter id={`${id}-felt`} x="0" y="0" width="100%" height="100%">
+          <feTurbulence type="fractalNoise" baseFrequency="1.4 0.35" numOctaves="2" seed="2" result="n" />
+          <feColorMatrix in="n" type="matrix" values="0 0 0 0 0.15  0 0 0 0 0.2  0 0 0 0 0.3  0 0 0 0.45 0" result="fibres" />
+          <feComposite in="fibres" in2="SourceGraphic" operator="in" result="lay" />
+          <feMerge><feMergeNode in="SourceGraphic" /><feMergeNode in="lay" /></feMerge>
+        </filter>
+        <filter id={`${id}-gloss`}><feGaussianBlur stdDeviation="0.4" /></filter>
       </defs>
-      <rect x="56" y="4" width="160" height="26" rx="7" fill={`url(#${id}-barrel)`} />
-      <rect x="0" y="3" width="66" height="28" rx="8" fill={`url(#${id}-cap)`} />
-      <rect x="12" y="0" width="40" height="7" rx="3.5" fill="#56677A" />
-      <path d="M14 1.8H50" stroke="#FFFFFF" strokeOpacity="0.35" />
-      <path d="M216 9L236 13V21L216 25Z" fill="#6E86A8" />
-      <path d="M216 9L236 13" stroke="#FFFFFF" strokeOpacity="0.4" />
+
+      {/* barrel */}
+      <rect x="68" y="6" width="190" height="20" rx="5.5" fill={`url(#${id}-barrel)`} />
+      <path d="M76 19.4H254" stroke="#566C8C" strokeOpacity="0.35" strokeWidth="0.5" />
+      <path d="M76 19.9H254" stroke="#FFFFFF" strokeOpacity="0.18" strokeWidth="0.4" />
+      <path d="M78 9.6H252" stroke="#FFFFFF" strokeOpacity="0.75" strokeWidth="1.1" strokeLinecap="round" filter={`url(#${id}-gloss)`} />
+      <path d="M80 24.2H250" stroke="#C9D6E8" strokeOpacity="0.35" strokeWidth="0.6" />
+      {/* the print, pad-printed along the barrel */}
+      <g fill="#24303C" fillOpacity="0.78" fontFamily="'Helvetica Neue', Arial, sans-serif">
+        <text x="112" y="18.2" fontSize="6.4" fontWeight="700" letterSpacing="1.1">SOFT LINER</text>
+        <text x="171" y="15" fontSize="3.9" letterSpacing="0.5">HIGHLIGHTER</text>
+        <text x="171" y="19.6" fontSize="3.9" letterSpacing="0.25">chisel 1-5 mm</text>
+        <text x="222" y="17.8" fontSize="3.4" letterSpacing="0.2">No. 32</text>
+      </g>
+      <path d="M167 11.5V21" stroke="#24303C" strokeOpacity="0.4" strokeWidth="0.5" />
+
+      {/* nose cone with three moulded rings, then a short felt chisel tip */}
+      <path d="M256 7.5L268 10.5V21.5L256 24.5Z" fill={`url(#${id}-nose)`} />
+      {[259, 261.8, 264.6].map((x) => (
+        <g key={x}>
+          <path d={`M${x} ${8.3 + (x - 256) * 0.25}V${23.7 - (x - 256) * 0.25}`} stroke="#3B4C66" strokeOpacity="0.55" strokeWidth="0.8" />
+          <path d={`M${x + 0.8} ${8.5 + (x - 256) * 0.25}V${23.5 - (x - 256) * 0.25}`} stroke="#FFFFFF" strokeOpacity="0.35" strokeWidth="0.4" />
+        </g>
+      ))}
+      <path d="M268 11.8L278 14.3L280 16L278 18.6L268 20.2Z" fill="#7189AC" filter={`url(#${id}-felt)`} />
+      <path d="M268 11.8L278 14.3L280 16" fill="none" stroke="#C6D3E5" strokeOpacity="0.6" strokeWidth="0.6" />
+
+      {/* the cap, posted on the back end: rounded crown, ribbed grip, pocket clip */}
+      <path d="M0 11a7 7 0 0 1 7-7H80V28H7A7 7 0 0 1 0 21Z" fill={`url(#${id}-cap)`} />
+      {ribs.map((x) => (
+        <g key={x}>
+          <path d={`M${x} 5V27`} stroke="#141A21" strokeOpacity="0.55" strokeWidth="0.8" />
+          <path d={`M${x + 0.8} 5V27`} stroke="#B9C4D1" strokeOpacity="0.3" strokeWidth="0.4" />
+        </g>
+      ))}
+      <path d="M80 4V28" stroke="#141A21" strokeOpacity="0.6" strokeWidth="1" />
+      <path d="M5 7.8H78" stroke="#FFFFFF" strokeOpacity="0.55" strokeWidth="1" strokeLinecap="round" filter={`url(#${id}-gloss)`} />
+      <path d="M7 1.2H47a3.2 3.2 0 0 1 0 6.4H7a2 2 0 0 1 0-4Z" fill={`url(#${id}-clip)`} />
+      <path d="M9 2.6H46" stroke="#FFFFFF" strokeOpacity="0.5" strokeWidth="0.7" strokeLinecap="round" />
+      <path d="M13 5.3H42" stroke="#1C242D" strokeOpacity="0.45" strokeWidth="0.5" />
+      <circle cx="48" cy="4.4" r="1.3" fill="#2E3945" />
     </svg>
   );
 }

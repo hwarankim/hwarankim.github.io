@@ -6,6 +6,8 @@
   --kraft-2: #E3D3C8;
   --paper-2: #EADFD5;
   --loose-paper: #FAF7F2;
+  /* white paper before its grain is multiplied in; the two average back to --loose-paper */
+  --paper-lit: #FFFEF9;
   --ink: #3D4D5C;
   --accent: #7B4F33;
   --accent-press: #66412A;
@@ -344,8 +346,9 @@ a:hover { text-decoration-thickness: 3px; }
 .desk-thing { z-index: 2; filter: var(--lift-low); } /* taste-skill-ignore: objects on the desk */
 .loose {
   z-index: 1;
-  background: var(--loose-paper) url('/textures/paper-grain-mid.jpg') 0 0 / 512px;
-  background-blend-mode: soft-light;
+  /* white paper takes a fine copy-paper grain; the kraft grain stays on the folders */
+  background: var(--paper-lit) url('/textures/paper-fine.jpg') 0 0 / 512px;
+  background-blend-mode: multiply;
   filter: var(--lift); /* taste-skill-ignore: paper resting on the desk */
 }
 .loose-title {
@@ -370,8 +373,10 @@ a:hover { text-decoration-thickness: 3px; }
   grid-row: 3; justify-self: start; align-self: start;
   width: min(46%, 600px); height: 320px; margin: calc(-80px - var(--onto)) 0 0 -2%; rotate: 4deg; z-index: 5;
   /* graph paper: a 22px square ruled in periwinkle */
-  background: var(--loose-paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22'%3E%3Cpath d='M21.5 0V22M0 21.5H22' stroke='%239FB4D0' stroke-opacity='.55'/%3E%3C/svg%3E");
-  background-blend-mode: normal;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22'%3E%3Cpath d='M21.5 0V22M0 21.5H22' stroke='%239FB4D0' stroke-opacity='.55'/%3E%3C/svg%3E"),
+    var(--paper-lit) url('/textures/paper-fine.jpg') 0 0 / 512px;
+  background-blend-mode: normal, multiply;
 }
 .desk-binder { position: absolute; top: -30px; left: 42%; rotate: -3deg; }
 /* College-ruled filler paper: lines 9/32 inch apart under a blank header, a margin rule at
@@ -384,9 +389,10 @@ a:hover { text-decoration-thickness: 3px; }
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%23E3D3C8'/%3E%3C/svg%3E") 18px 50% / 16px no-repeat,
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%23E3D3C8'/%3E%3C/svg%3E") 18px 84% / 16px no-repeat,
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='122' height='8'%3E%3Crect x='120' width='2' height='8' fill='%237B4F33' fill-opacity='.4'/%3E%3C/svg%3E") 0 0 / 122px 8px repeat-y,
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Crect width='8' height='8' fill='%23FAF7F2'/%3E%3C/svg%3E") 0 0 / 100% 64px no-repeat,
-    var(--loose-paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='27'%3E%3Cpath d='M0 26.5H8' stroke='%239FB4D0' stroke-opacity='.75'/%3E%3C/svg%3E") 0 10px / 8px 27px;
-  background-blend-mode: normal;
+    url('/textures/paper-fine.jpg') 0 0 / 512px,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Crect width='8' height='8' fill='%23FFFEF9'/%3E%3C/svg%3E") 0 0 / 100% 64px no-repeat,
+    var(--paper-lit) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='27'%3E%3Cpath d='M0 26.5H8' stroke='%239FB4D0' stroke-opacity='.75'/%3E%3C/svg%3E") 0 10px / 8px 27px;
+  background-blend-mode: normal, normal, normal, normal, multiply, normal, normal;
 }
 .loose-card {
   grid-row: 3; justify-self: center; align-self: start; z-index: 7;
@@ -466,14 +472,14 @@ a:hover { text-decoration-thickness: 3px; }
   position: absolute; top: calc(10px + var(--k) * 7px); left: calc(6px + var(--k) * 10px);
   right: calc(26px - var(--k) * 10px); height: 48px; border-radius: 2px;
   rotate: calc(var(--k) * 0.22deg - 0.12deg);
-  background: var(--paper-tone, var(--loose-paper)) url('/textures/paper-grain-mid.jpg') 0 0 / 512px;
-  background-blend-mode: soft-light;
+  background: var(--paper-tone, var(--paper-lit)) url('/textures/paper-fine.jpg') 0 0 / 512px;
+  background-blend-mode: multiply;
   filter: var(--lift-low); /* taste-skill-ignore: papers stacked in the folder */
   transition: opacity 260ms var(--ease);
 }
 /* no two papers in a folder are quite the same stock */
-.wf-edges span:nth-child(2) { --paper-tone: color-mix(in srgb, var(--loose-paper) 70%, var(--wash)); }
-.wf-edges span:nth-child(3) { --paper-tone: color-mix(in srgb, var(--loose-paper) 75%, var(--kraft-2)); }
+.wf-edges span:nth-child(2) { --paper-tone: color-mix(in srgb, var(--paper-lit) 70%, var(--wash)); }
+.wf-edges span:nth-child(3) { --paper-tone: color-mix(in srgb, var(--paper-lit) 75%, var(--kraft-2)); }
 
 /* The front cover, laid over the papers. Two score lines are pressed across it near the fold:
    a dark groove with a lit edge under it. */
@@ -519,14 +525,14 @@ a:hover { text-decoration-thickness: 3px; }
   grid-area: 1 / 1; position: relative; z-index: calc(10 - var(--pos));
   display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 16px 48px; align-content: start;
   padding: 28px 32px 48px; color: var(--ink);
-  background: var(--paper-tone, var(--loose-paper)) url('/textures/paper-grain-mid.jpg') 0 0 / 512px;
-  background-blend-mode: soft-light;
+  background: var(--paper-tone, var(--paper-lit)) url('/textures/paper-fine.jpg') 0 0 / 512px;
+  background-blend-mode: multiply;
   filter: var(--lift-low); /* taste-skill-ignore: pages lying on one another */
   translate: calc(var(--pos) * 6px) calc(var(--pos) * 9px); rotate: calc(var(--pos) * 0.5deg);
   transition: translate 420ms var(--ease), rotate 420ms var(--ease);
 }
-.wf-page:nth-child(2) { --paper-tone: color-mix(in srgb, var(--loose-paper) 70%, var(--wash)); }
-.wf-page:nth-child(3) { --paper-tone: color-mix(in srgb, var(--loose-paper) 75%, var(--kraft-2)); }
+.wf-page:nth-child(2) { --paper-tone: color-mix(in srgb, var(--paper-lit) 70%, var(--wash)); }
+.wf-page:nth-child(3) { --paper-tone: color-mix(in srgb, var(--paper-lit) 75%, var(--kraft-2)); }
 .wf-page h3 { font: 400 clamp(1.5rem, 1.1rem + 1.1vw, 2.125rem) / 1.05 'Times New Roman', Times, serif; letter-spacing: -0.01em; }
 .wf-page-unit { margin-top: 10px; font-weight: 500; }
 .wf-page-line { margin-top: 2px; }
