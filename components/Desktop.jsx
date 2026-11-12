@@ -98,10 +98,6 @@ export default function Desktop() {
           </div>
         </div>
 
-        <figure className="desk-photo">
-          <img src="/hero-cutout.png" alt="Full-length photo of hwaran kim" width="800" height="1800" />
-        </figure>
-
         <nav className="desk-folders" aria-label="Folders">
           <ul>
             {folders.map((f, i) => (
