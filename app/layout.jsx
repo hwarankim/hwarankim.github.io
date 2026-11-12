@@ -4,8 +4,8 @@ import Reveal from '../components/Reveal';
 import { site } from '../lib/site';
 
 export const metadata = {
-  title: { default: 'hwaran kim, Global Digital Strategist', template: '%s | hwaran kim' },
-  description: site.intro,
+  title: { default: site.name, template: `%s | ${site.name}` },
+  description: site.summary,
 };
 
 export const viewport = { themeColor: '#F1EAE0', width: 'device-width', initialScale: 1 };
