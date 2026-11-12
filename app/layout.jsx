@@ -12,12 +12,13 @@ export const viewport = { themeColor: '#F1EAE0', width: 'device-width', initialS
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    // The inline script below adds `js` to <html> before hydration, on purpose.
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Prata&family=Work+Sans:wght@400;500&display=swap"
           rel="stylesheet"
         />
         {/* Entrance styles only apply once script runs, so nothing stays hidden without it. */}
