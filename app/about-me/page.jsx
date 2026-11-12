@@ -27,7 +27,7 @@ export default function AboutMe() {
           <article className="letter-sheet">
             <h2 id="letter-title" className="letter-title" data-reveal>A note from me</h2>
             <p data-reveal style={{ '--d': '70ms' }}>
-              Hello, I am hwaran. I study business marketing at NC State, with minors in philosophy and
+              Hello, I am Hwaran. I study business marketing at NC State, with minors in philosophy and
               international studies, and I am currently on exchange at Seoul National University.
             </p>
             <p data-reveal style={{ '--d': '140ms' }}>

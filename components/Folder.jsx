@@ -107,7 +107,7 @@ export function FolderBack({ current, stamp, credits }) {
           </ul>
         </div>
         <p className="imprint">
-          © 2026 hwaran kim. Pictures from Wikimedia Commons:{' '}
+          © 2026 Hwaran Kim. Pictures from Wikimedia Commons:{' '}
           {[stamp, ...credits.filter((c) => c !== stamp)].map((key, i, all) => {
             const c = pictures[key].credit;
             return (
