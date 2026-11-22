@@ -26,8 +26,8 @@ export default function Coupon() {
         <form className="coupon-form" action={`mailto:${site.email}`} method="post" encType="text/plain" onSubmit={onSubmit}>
           <label className="visually-hidden" htmlFor="c-name">Your name</label>
           <input id="c-name" name="name" autoComplete="name" placeholder="Your name" required />
-          <label className="visually-hidden" htmlFor="c-org">Organisation</label>
-          <input id="c-org" name="org" autoComplete="organization" placeholder="Organisation" />
+          <label className="visually-hidden" htmlFor="c-org">Organization</label>
+          <input id="c-org" name="org" autoComplete="organization" placeholder="Organization" />
           <label className="visually-hidden" htmlFor="c-reply">Your email</label>
           <input id="c-reply" name="reply" type="email" autoComplete="email" placeholder="Your email" />
           <label className="visually-hidden" htmlFor="c-message">Message</label>
