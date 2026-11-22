@@ -265,16 +265,15 @@ a:hover { text-decoration-thickness: 3px; }
 
 /* ---------- Academics: title, note, facts row ---------- */
 
-.facts-top {
-  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px; align-items: end;
-}
-.facts-top .head { grid-column: 1 / span 7; }
-.facts-note { grid-column: 9 / span 4; max-width: 34ch; }
+.facts-essay { margin-top: clamp(40px, 4vw, 64px); max-width: 68ch; display: grid; gap: 1em; }
 
 .facts-row {
-  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 32px 40px;
-  margin-top: clamp(72px, 8vw, 120px);
+  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 32px 40px;
 }
+@media (min-width: 768px) and (max-width: 1023px) {
+  .facts-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
 .facts-row dt { font-size: var(--step-lead); font-weight: 500; line-height: 1.1; letter-spacing: -0.02em; }
 .facts-row dd { margin-top: 8px; font-size: var(--step-small); }
 .facts-row > :nth-child(2) { --d: 70ms; }
@@ -290,8 +289,6 @@ a:hover { text-decoration-thickness: 3px; }
 .facts-pic-b { grid-column: 7 / span 6; margin-top: 120px; --d: 120ms; }
 
 @media (max-width: 767px) {
-  .facts-top { grid-template-columns: 1fr; row-gap: 20px; }
-  .facts-top .head, .facts-note { grid-column: 1; }
   .facts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 32px 20px; }
   .facts-pics { grid-template-columns: 1fr; row-gap: 32px; }
   .facts-pic-a, .facts-pic-b { grid-column: 1; margin-top: 0; }
@@ -303,7 +300,7 @@ a:hover { text-decoration-thickness: 3px; }
 .deck-card { background: var(--tone); padding: 32px; display: flex; flex-direction: column; gap: 16px; }
 .deck-card h3 { font-size: var(--step-lead); line-height: 1.1; letter-spacing: -0.02em; white-space: nowrap; }
 .deck-text, .deck-courses { max-width: 52ch; }
-.deck-courses { font-weight: 500; }
+.deck-courses { font-weight: 500; list-style: none; padding: 0; display: grid; gap: 10px; }
 .deck-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; margin-top: auto; }
 .deck-count { margin-top: 48px; }
 

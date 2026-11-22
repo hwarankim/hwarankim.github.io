@@ -86,7 +86,11 @@ export default function CourseDeck({ themes }) {
               >
                 <h3>{t.title}</h3>
                 <p className="deck-text">{t.text}</p>
-                <p className="deck-courses">{t.courses}</p>
+                <ul className="deck-courses">
+                  {t.courses.map((course) => (
+                    <li key={course}>{course}</li>
+                  ))}
+                </ul>
                 <p className="deck-foot">
                   <span>{t.where}</span>
                   <a href={site.resume}>Resume (PDF)</a>
@@ -95,7 +99,7 @@ export default function CourseDeck({ themes }) {
             ))}
           </ol>
           <p className="deck-count">
-            Four themes, [Number] courses in all.
+            Four themes, {themes.reduce((n, th) => n + th.courses.length, 0)} courses in all.
           </p>
         </div>
       </div>
