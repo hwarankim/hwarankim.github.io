@@ -3,7 +3,8 @@ import { pictures } from '../../lib/site';
 
 export const metadata = { title: 'Extra' };
 
-// General descriptions of each market. hwaran's own read on each one is a placeholder.
+// General descriptions of each market. Hwaran's own read on each one, and each Seoul note,
+// shows "check back later" until it is written.
 const markets = [
   {
     pic: 'bund', market: 'Livestream commerce', country: 'China',
@@ -23,7 +24,7 @@ const markets = [
   },
   {
     pic: 'merch', market: 'K-pop', country: 'South Korea',
-    text: 'Fandoms organise around releases and tours, and brands buy into that calendar with endorsements, pop-ups and limited editions.',
+    text: 'Fandoms organize around releases and tours, and brands buy into that calendar with endorsements, pop-ups and limited editions.',
   },
 ];
 
@@ -69,7 +70,7 @@ export default function Extra() {
                       <span>{m.country}</span>
                     </h3>
                     <p>{m.text}</p>
-                    <p className="market-mine">My read: [Your note on this market.]</p>
+                    <p className="market-mine">My read: check back later ;)</p>
                     <p className="market-cap">{p.caption}</p>
                   </div>
                 </li>
@@ -94,10 +95,7 @@ export default function Extra() {
               <li key={n.topic} className="slip" style={{ '--h': `${n.h}svh`, '--tilt': i % 3 === 1 ? '-1.5deg' : i % 3 === 2 ? '1deg' : '0deg' }}>
                 <p className="slip-head">{n.topic}</p>
                 <p aria-hidden="true">. . . . . . . . . .</p>
-                <p>[Place in Seoul]</p>
-                <p>[Date]</p>
-                <p>[What you noticed]</p>
-                <p>[What a brand could learn]</p>
+                <p>Check back later ;)</p>
               </li>
             ))}
           </ul>

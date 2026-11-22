@@ -27,21 +27,23 @@ export default function AboutMe() {
           <article className="letter-sheet">
             <h2 id="letter-title" className="letter-title" data-reveal>A note from me</h2>
             <p data-reveal style={{ '--d': '70ms' }}>
-              Hello, I am Hwaran. I study business marketing at NC State, with minors in philosophy and
-              international studies, and I am currently on exchange at Seoul National University.
+              Hello! Thank you for checking out my website. My name is Hwaran Kim, and I study
+              business marketing at NC State, with minors in philosophy and international studies.
+              I am currently on exchange at Seoul National University, and have been able to take a
+              firsthand perspective on some of East Asia&rsquo;s fastest-growing industries.
             </p>
             <p data-reveal style={{ '--d': '140ms' }}>
-              I am interested in how commerce works across East Asia: livestream selling in China,
-              entertainment in Japan, technology in South Korea, and the skincare and K-pop industries
-              that carry Korean brands to the rest of the world.
+              Some of these industries include livestream selling in China, entertainment in Japan,
+              technology in South Korea, and the skincare and K-pop industries that carry Korean
+              brands to the rest of the world.
             </p>
             <p data-reveal style={{ '--d': '210ms' }}>
-              My plan is to build a career in marketing first, and then go to law school. [One or two
-              sentences, in your own words, on why law follows marketing.]
+              I&rsquo;m determined to start my career in marketing, where I can gain real-world
+              experience and broaden my perspective before going on to law school.
             </p>
             <p data-reveal style={{ '--d': '0ms' }}>
-              If you work on brands that move between Korea, East Asia and the US, I would be glad to
-              talk.
+              If you work on brands that move between Korea, East Asia and the US, I&rsquo;d be happy
+              to talk!
             </p>
             <p className="letter-sign" data-reveal>{site.name}</p>
             <p className="letter-role">{site.role}</p>
