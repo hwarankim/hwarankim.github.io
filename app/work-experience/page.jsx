@@ -1,6 +1,6 @@
 import { BinderClip, CoffeeRing, Envelope, Eraser, Marker, Mug, PaperClip, Pencil, Ruler } from '../../components/DeskThings';
 import FolderStack from '../../components/FolderStack';
-import { TopBar } from '../../components/Folder';
+import { FolderBack, TopBar } from '../../components/Folder';
 import { site } from '../../lib/site';
 import { work } from '../../lib/work';
 
@@ -15,7 +15,7 @@ export default function WorkExperience() {
       <main className="worktop">
         <section className="loose loose-title" aria-labelledby="page-title">
           <PaperClip className="desk-clip" id="clip-title" />
-          <h1 id="page-title">Work Experience</h1>
+          <h1 id="page-title">Work experience</h1>
         </section>
         <p className="loose loose-note">
           Paper grain from{' '}
@@ -38,12 +38,14 @@ export default function WorkExperience() {
           <span className="loose-card-name">{site.name}</span>
           <span>{site.role}</span>
           <a href={site.linkedin} rel="me noopener" target="_blank">linkedin.com/in/hwaran-kim</a>
+          <a href={site.resume}>Resume (PDF)</a>
         </p>
         <PaperClip className="desk-thing desk-clip-card" id="clip-card" />
         <Mug className="desk-thing desk-mug" />
         <Ruler className="desk-thing desk-ruler" />
         <Marker className="desk-thing desk-marker" />
       </main>
+      <FolderBack current="/work-experience/" stamp="jongno" credits={[]} />
     </>
   );
 }
