@@ -539,6 +539,10 @@ a:hover { text-decoration-thickness: 3px; }
 
 /* ---------- the folders ---------- */
 
+/* Folders open as the page scrolls; when one opens above the screen, FolderStack holds the
+   visitor's place itself, so the browser's own scroll anchoring stays out of the way. */
+:root:has(.page-work) { overflow-anchor: none; }
+
 .stack {
   --tab-h: 44px;
   grid-row: 2; grid-column: 1; position: relative; z-index: 3;
@@ -562,6 +566,7 @@ a:hover { text-decoration-thickness: 3px; }
     var(--lift); /* taste-skill-ignore: each folder lies on the one below it */
 }
 .wf:first-child { margin-top: 0; }
+.wf { scroll-margin-top: 16px; }
 
 /* The folders take the six folder colors in order, then start again: white text on the dark
    ones, --text on the light ones (every pair passes WCAG AA). */
@@ -636,58 +641,57 @@ a:hover { text-decoration-thickness: 3px; }
 }
 .wf-dates { font-variant-numeric: tabular-nums; }
 
-/* While one folder is open, the others sink back to their tab, paper edges and a sliver of cover. */
-.has-open .wf:not(.is-open) .wf-cover { min-height: calc(var(--tab-h) + var(--tuck) + 22px); padding-top: 0; padding-bottom: 0; }
-.has-open .wf:last-child:not(.is-open) .wf-cover { min-height: var(--last-h); }
-.has-open .wf:not(.is-open) .wf-dates,
-.has-open .wf:not(.is-open) .wf-detail { display: none; }
-
-/* Opening a folder: the paper edges drop away and the papers come up as a pile, one page per role,
-   the cover's edge still holding their feet. Pages under the top one show their edges below it. */
+/* Scrolling opens the folders in turn and they stay open. A closed folder shows its tab, the
+   paper edges and the cover; an open one has its pages laid out in one column, newest role
+   first, the cover's edge still holding the last one's foot. */
 .wf.is-open .wf-edges { height: 8px; }
 .wf.is-open .wf-edges span { opacity: 0; }
 .wf.is-open .wf-cover { margin-top: -26px; padding-top: 18px; }
-.wf-detail { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 520ms var(--ease); }
+.wf-detail { display: grid; grid-template-rows: 0fr; }
 .wf.is-open .wf-detail { grid-template-rows: 1fr; }
-.wf-detail-inner {
-  min-height: 0; overflow: hidden; opacity: 0; visibility: hidden;
-  transition: opacity 260ms var(--ease), visibility 0s linear 520ms;
-}
-/* open, a page being leafed may swing past the folder's edge */
-.wf.is-open .wf-detail-inner { overflow: visible; opacity: 1; visibility: visible; transition: opacity 260ms var(--ease) 120ms, visibility 0s; }
-.wf-pages { display: grid; margin: 0; padding: 6px var(--margin) 46px; list-style: none; }
-.wf-page {
-  grid-area: 1 / 1; position: relative; z-index: calc(10 - var(--pos));
-  display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 16px 48px; align-content: start;
-  padding: 28px 32px 48px; color: var(--text);
+.wf-detail-inner { min-height: 0; overflow: hidden; opacity: 0; visibility: hidden; }
+/* open, a page coming off the pile may swing past the folder's edge */
+.wf.is-open .wf-detail-inner { overflow: visible; opacity: 1; visibility: visible; }
+/* Transitions wait for the first measure, so folders below the fold close without being seen;
+   folders opened above the screen (a jump) open at once. */
+.stack.is-ready .wf-detail { transition: grid-template-rows 620ms var(--ease); }
+.stack.is-ready .wf-detail-inner { transition: opacity 260ms var(--ease), visibility 0s linear 620ms; }
+.stack.is-ready .wf.is-open .wf-detail-inner { transition: opacity 320ms var(--ease) 140ms, visibility 0s; }
+.stack.is-instant .wf-detail, .stack.is-instant .wf-detail-inner,
+.stack.is-instant .wf-edges, .stack.is-instant .wf-cover { transition: none !important; }
+
+.wf-pages { display: grid; gap: 20px; justify-items: center; margin: 0; padding: 6px var(--margin) 46px; list-style: none; }
+/* Each page holds its place in the column; the sheet inside it is what moves. A page starts
+   tucked under the one above it (--off, set from scroll) and slides down into place (--t is 1). */
+.wf-page { position: relative; z-index: calc(10 - var(--k)); width: min(100%, 920px); scroll-margin-top: 24px; }
+.wf-sheet {
+  padding: clamp(24px, 3vw, 44px) clamp(20px, 3.4vw, 52px) clamp(32px, 3.4vw, 52px); color: var(--text);
   background: var(--paper-tone, var(--paper-lit)) url('/textures/paper-fine.jpg') 0 0 / 512px;
   background-blend-mode: multiply;
   filter: var(--lift-low); /* taste-skill-ignore: pages lying on one another */
-  translate: calc(var(--pos) * 6px) calc(var(--pos) * 9px); rotate: calc(var(--pos) * 0.5deg);
-  transition: translate 420ms var(--ease), rotate 420ms var(--ease);
+  translate: calc((1 - var(--t, 1)) * -2.5%) var(--off, 0px);
+  rotate: calc((1 - var(--t, 1)) * -1.6deg);
 }
 .wf-page:nth-child(2) { --paper-tone: color-mix(in srgb, var(--paper-lit) 70%, var(--note)); }
 .wf-page:nth-child(3) { --paper-tone: color-mix(in srgb, var(--paper-lit) 75%, var(--surface-2)); }
-.wf-page h3 { font: 400 clamp(1.5rem, 1.1rem + 1.1vw, 2.125rem) / 1.05 var(--font-display); letter-spacing: -0.01em; }
-.wf-page-unit { margin-top: 10px; font-weight: 500; }
-.wf-page-line { margin-top: 2px; }
-.wf-page h3 + .wf-page-line { margin-top: 10px; }
-.wf-page ul { margin: 4px 0 0; padding-left: 1.1em; max-width: 68ch; }
-.wf-page li + li { margin-top: 6px; }
+/* the first page comes up out of the folder as it opens */
 @keyframes page-up { from { opacity: 0; transform: translateY(36px); } }
-.wf.is-open .wf-pages { animation: page-up 520ms var(--ease) both; }
-/* leafing: the page swings out past the pile's edge, then settles into its new place */
-.wf-page.is-lifted { translate: -12% -28px; rotate: -3deg; transition-duration: 280ms; }
-.wf-page.is-over { z-index: 20; }
+.stack.is-ready .wf.is-open .wf-page:first-child .wf-sheet { animation: page-up 620ms var(--ease) 80ms both; }
+.stack.is-instant .wf-page .wf-sheet { animation: none !important; }
 
-.wf-pager { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 20px; }
-.wf-pager span { font-variant-numeric: tabular-nums; }
-.wf-pager button {
-  min-height: 40px; padding: 0 2px; border: 0; background: none; color: inherit; cursor: pointer;
-  font: 500 var(--step-body) / 1 var(--font);
-  text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 0.2em;
+/* A resume entry: title and dates on one line, where the eye expects them; the organization and
+   the terms under them; a hairline; then the points, one under another. */
+.wf-page-head {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 24px; align-items: baseline;
+  padding-bottom: 18px; border-bottom: 1px solid var(--rule);
 }
-.wf-pager button:hover { text-decoration-thickness: 3px; }
+.wf-page h3 { grid-column: 1; font: 400 clamp(1.5rem, 1.1rem + 1.1vw, 2.125rem) / 1.05 var(--font-display); letter-spacing: -0.01em; }
+.wf-page-dates { grid-column: 2; grid-row: 1; font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.wf-page-unit { grid-column: 1 / -1; margin-top: 12px; font-weight: 500; }
+.wf-page-line { grid-column: 1 / -1; margin-top: 2px; color: var(--text-muted); }
+.wf-page ul { margin: 18px 0 0; padding-left: 1.1em; max-width: 72ch; }
+.wf-page li + li { margin-top: 10px; }
+.wf-page li::marker { color: var(--text-muted); }
 
 @keyframes slide-in { from { opacity: 0; transform: translateY(40px); } }
 @keyframes land { from { opacity: 0; translate: 0 28px; } }
@@ -718,7 +722,8 @@ a:hover { text-decoration-thickness: 3px; }
   .wf-edges { margin: 0 16px; }
   .wf-cover { padding-left: 16px; padding-right: 16px; }
   .wf-pages { padding-left: 12px; padding-right: 12px; }
-  .wf-page { grid-template-columns: 1fr; padding: 20px 20px 40px; }
+  .wf-page-head { grid-template-columns: 1fr; }
+  .wf-page-dates { grid-column: 1; grid-row: auto; margin-top: 10px; white-space: normal; }
   .loose-title { margin: 0 0 -60px 4px; padding-bottom: 100px; }
   .loose-note { grid-row: 3; justify-self: start; align-self: start; z-index: 6; width: 190px; margin: calc(300px - var(--onto)) 0 0 6%; rotate: -4deg; padding-bottom: 22px; }
   .desk-ring { grid-row: 3; margin: calc(240px - var(--onto)) -20px 0 0; }
