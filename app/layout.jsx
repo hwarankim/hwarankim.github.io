@@ -13,7 +13,7 @@ export const metadata = {
   twitter: { card: 'summary_large_image' },
 };
 
-export const viewport = { themeColor: '#F1EAE0', width: 'device-width', initialScale: 1 };
+export const viewport = { themeColor: '#F9F6F1', width: 'device-width', initialScale: 1 };
 
 export default function RootLayout({ children }) {
   return (

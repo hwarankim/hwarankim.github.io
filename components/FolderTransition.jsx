@@ -2,9 +2,12 @@
 
 import { useEffect, useRef } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import { folders } from '../lib/site';
+import { FolderBackArt, FolderFrontArt } from './FolderIcon';
 
-// Folder art is 512 x 416. The bone sheet inside it (x 40-472, y 76-392) is the paper that grows
-// to fill the screen, in the same colour as every subpage's ground.
+// Folder art is 512 x 416. The sheet inside it (x 40-472, y 76-392) is the paper that grows
+// to fill the screen, in the same colour as every subpage's ground. The folder takes the color of
+// the page it opens.
 const ART_W = 512;
 const PAPER = { x: 40, y: 76, w: 432, h: 316 };
 const HINGE = '50% 95%';
@@ -65,6 +68,8 @@ export default function FolderTransition() {
       });
 
       s.target = strip(href);
+      const page = folders.find((f) => strip(f.href) === s.target);
+      stage.className = `folder-stage${page ? ` page-${page.key}` : ''}`;
       s.source = source;
       router.prefetch(href);
       folder.style.transform = t0;
@@ -135,9 +140,9 @@ export default function FolderTransition() {
   return (
     <div className="folder-stage" ref={stageRef} hidden aria-hidden="true">
       <div className="folder-stage-art" ref={folderRef}>
-        <img src="/folder-back.svg" alt="" width="512" height="416" />
+        <FolderBackArt />
         <img className="folder-stage-preview" ref={previewRef} alt="" decoding="sync" />
-        <img className="folder-stage-front" ref={frontRef} src="/folder-front.svg" alt="" width="512" height="416" style={{ transformOrigin: HINGE }} />
+        <FolderFrontArt className="folder-stage-front" ref={frontRef} style={{ transformOrigin: HINGE }} />
       </div>
     </div>
   );

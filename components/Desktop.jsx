@@ -1,7 +1,9 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 import { folders, site } from '../lib/site';
+import FolderIcon from './FolderIcon';
 import { previewFor } from './FolderTransition';
 import MenuBar from './MenuBar';
 
@@ -71,7 +73,7 @@ export default function Desktop() {
     if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const link = e.currentTarget;
-    const icon = link.querySelector('img');
+    const icon = link.querySelector('.folder-icon');
     const open = new CustomEvent('folder:open', {
       cancelable: true,
       detail: { href: link.getAttribute('href'), rect: icon.getBoundingClientRect(), source: icon },
@@ -92,9 +94,6 @@ export default function Desktop() {
             <a className="btn btn-primary" href={site.linkedin} rel="me noopener" target="_blank">
               LinkedIn
             </a>
-            <a className="btn btn-secondary" href={site.resume}>
-              Resume (PDF)
-            </a>
           </div>
         </div>
 
@@ -102,8 +101,8 @@ export default function Desktop() {
           <ul>
             {folders.map((f, i) => (
               <li key={f.href} style={{ '--i': i }}>
-                <a
-                  className="folder"
+                <Link
+                  className={`folder page-${f.key}`}
                   href={f.href}
                   data-folder={f.label}
                   draggable="false"
@@ -113,9 +112,9 @@ export default function Desktop() {
                   onPointerCancel={onPointerUp}
                   onClick={onClick}
                 >
-                  <img src="/folder.png" alt="Folder" width="512" height="416" draggable="false" />
+                  <FolderIcon label="Folder" />
                   <span className="folder-label">{f.label}</span>
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

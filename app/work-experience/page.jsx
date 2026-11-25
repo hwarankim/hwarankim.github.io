@@ -10,7 +10,7 @@ export const metadata = { title: 'Work experience' };
 // the folders lie in the middle, and more paper, a mug and odds and ends are scattered around.
 export default function WorkExperience() {
   return (
-    <>
+    <div className="page-work">
       <TopBar current="/work-experience/" />
       <main className="worktop">
         <section className="loose loose-title" aria-labelledby="page-title">
@@ -46,6 +46,6 @@ export default function WorkExperience() {
         <Marker className="desk-thing desk-marker" />
       </main>
       <FolderBack current="/work-experience/" stamp="jongno" credits={[]} />
-    </>
+    </div>
   );
 }

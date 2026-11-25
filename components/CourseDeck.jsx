@@ -3,6 +3,9 @@
 import { useEffect, useRef } from 'react';
 import { site } from '../lib/site';
 
+// "International studies" -> "international-studies": the name a theme's link uses.
+const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
 const SLIVER = 104;
 const GAP = 24;
 
@@ -50,6 +53,13 @@ export default function CourseDeck({ themes }) {
     }
 
     apply();
+    // Arriving on a theme's link (/academics/#philosophy, from the menu bar's outline): bring that
+    // card forward. The pinned deck scrolls to the card's turn; the stacked one scrolls to the card.
+    const i = themes.findIndex((t) => slug(t.title) === decodeURIComponent(window.location.hash.slice(1)));
+    const arrive = i === -1 ? 0 : requestAnimationFrame(() => {
+      if (track.classList.contains('is-pinned')) show(i, 'auto');
+      else cards[i].scrollIntoView({ block: 'start' });
+    });
     mq.addEventListener('change', apply);
     window.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', schedule);
@@ -58,16 +68,17 @@ export default function CourseDeck({ themes }) {
       window.removeEventListener('scroll', schedule);
       window.removeEventListener('resize', schedule);
       cancelAnimationFrame(frame);
+      cancelAnimationFrame(arrive);
     };
   }, []);
 
   // Clicking a spine, or tabbing into a covered card, scrolls the deck back to that theme.
-  function show(i) {
+  function show(i, behavior = 'smooth') {
     const track = trackRef.current;
     if (!track.classList.contains('is-pinned')) return;
     const run = track.offsetHeight - window.innerHeight;
     const top = track.getBoundingClientRect().top + window.scrollY;
-    window.scrollTo({ top: top + (run * i) / (themes.length - 1) + 2, behavior: 'smooth' });
+    window.scrollTo({ top: top + (run * i) / (themes.length - 1) + 2, behavior });
   }
 
   return (

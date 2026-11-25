@@ -51,7 +51,7 @@ const themes = [
 
 export default function Academics() {
   return (
-    <>
+    <div className="page-academics">
       <TopBar current="/academics/" />
       <main>
         <FolderHero
@@ -108,6 +108,6 @@ export default function Academics() {
         <CourseDeck themes={themes} />
       </main>
       <FolderBack current="/academics/" stamp="bukchon" credits={['snuGate', 'belltower', 'winston']} />
-    </>
+    </div>
   );
 }
