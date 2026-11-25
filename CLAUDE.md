@@ -82,22 +82,26 @@ white AI defaults, outlined rectangles standing in for real object edges.
 
 ## Colors — tokens only
 
-One light theme, Espresso & Periwinkle. Every value lives in `:root` in
+One light theme, Linen & Espresso Noir. Every value lives in `:root` in
 `app/globals.css`. **Never hard-code a hex anywhere else, and do not add a
-new color without being asked.**
+new color without being asked.** In-between shades (`--surface-2`,
+`--paper`, `--accent-press`...) are `color-mix()`es of the tokens below.
 
 ```
---ground      #F1EAE0   page ground
---kraft       #D5BCAD   --kraft-2  #E3D3C8   folder stock
---paper-2     #EADFD5   --loose-paper #FAF7F2   --paper-lit #FFFEF9
---ink         #3D4D5C   body text
---accent      #7B4F33   espresso; primary buttons, focus ring
---accent-press #66412A
---tint        #9FB4D0   periwinkle
---wash        #DCE4EE
---field-ink   #4E5F70
---tone-0..3             per-page shade assignments
+--bg          #F9F6F1   page background
+--surface     #EEE8E0   surfaces and cards
+--text        #241A15   body text      --text-muted #645C57
+--accent      #5E3426   espresso; buttons, focus ring   --on-accent #FFFFFF
+--detail      #5F79A6   decoration only, never text
+--note        #DCE4EF   sticky notes, pale paper
+--folder-1..6           Work page folders, in order
+--about / --academics / --work / --extra, each with -tint and -dark:
+                        that page's folder icon, current nav link, sheet tint
 ```
+
+Accent colors go on small elements only (buttons, folder icons, tags,
+underlines, active nav), never large blocks. Body text is `--text` or
+`--text-muted`.
 
 ## Typography
 

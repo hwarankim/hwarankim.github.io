@@ -1,4 +1,6 @@
+import Link from 'next/link';
 import { folders, pictures, site } from '../lib/site';
+import FolderIcon from './FolderIcon';
 
 // The pieces every opened folder shares: the bar back to the desktop, the folder sheet that opens
 // each page, a captioned picture, and the back of the folder as the footer.
@@ -6,17 +8,17 @@ import { folders, pictures, site } from '../lib/site';
 export function TopBar({ current }) {
   return (
     <header className="bar">
-      <a className="bar-back" href="/">
-        <img src="/folder.png" alt="" width="512" height="416" />
+      <Link className="bar-back" href="/">
+        <FolderIcon />
         <span>Back to desktop</span>
-      </a>
+      </Link>
       <nav className="bar-nav" aria-label="Folders">
         <ul>
           {folders.map((f) => (
             <li key={f.href}>
-              <a href={f.href} aria-current={f.href === current ? 'page' : undefined}>
+              <Link href={f.href} aria-current={f.href === current ? 'page' : undefined}>
                 {f.title}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
@@ -28,12 +30,12 @@ export function TopBar({ current }) {
   );
 }
 
-export function FolderHero({ title, sentence, bg, tone = 'kraft', actions, children }) {
+export function FolderHero({ title, sentence, bg, actions, children }) {
   const p = pictures[bg];
   return (
     <section className="hero" aria-labelledby="page-title">
       <img className="hero-bg" src={p.src} alt={p.alt} width={p.w} height={p.h} fetchPriority="high" />
-      <div className={`sheet sheet-${tone}`}>
+      <div className="sheet">
         <div className="sheet-tab">
           <h1 id="page-title">{title}</h1>
         </div>
@@ -43,7 +45,7 @@ export function FolderHero({ title, sentence, bg, tone = 'kraft', actions, child
             {children}
             <div className="actions">{actions}</div>
           </div>
-          <img className="sheet-folder" src="/folder.png" alt="" width="512" height="416" />
+          <FolderIcon className="sheet-folder" />
         </div>
       </div>
       <p className="hero-caption">{p.caption}</p>
@@ -90,7 +92,7 @@ export function FolderBack({ current, stamp, credits }) {
           <ul className="back-folders">
             {others.map((f) => (
               <li key={f.href}>
-                <a href={f.href}>{f.title}</a>
+                <Link href={f.href}>{f.title}</Link>
               </li>
             ))}
           </ul>
@@ -103,7 +105,7 @@ export function FolderBack({ current, stamp, credits }) {
             <li><a href={site.linkedin} rel="me noopener" target="_blank">LinkedIn</a></li>
             <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
             <li><a href={site.resume}>Resume (PDF)</a></li>
-            <li><a href="/">Back to desktop</a></li>
+            <li><Link href="/">Back to desktop</Link></li>
           </ul>
         </div>
         <p className="imprint">

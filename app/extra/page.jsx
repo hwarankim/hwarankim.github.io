@@ -40,13 +40,12 @@ const notes = [
 export default function Extra() {
   const v = pictures.seoulStreet;
   return (
-    <>
+    <div className="page-extra">
       <TopBar current="/extra/" />
       <main>
         <FolderHero
           title="Extra"
           bg="namsan"
-          tone="kraft"
           sentence="The East Asian markets I follow, and notes from my exchange in Seoul."
           actions={
             <>
@@ -102,6 +101,6 @@ export default function Extra() {
         </section>
       </main>
       <FolderBack current="/extra/" stamp="hanRiver" credits={['namsan', 'bund', 'shinjuku', 'ddp', 'cosmetics', 'merch', 'seoulStreet']} />
-    </>
+    </div>
   );
 }

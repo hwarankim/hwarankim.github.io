@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from 'react';
 
-// Light and dark faces alternate so neighbouring folders never blur together.
-const faces = ['kraft', 'ink', 'peri', 'paper', 'slate', 'blush', 'wash'];
 // Where each tab sits across the folder, as a step from the left: shuffled by hand, so the stack
 // looks dropped on the desk rather than filed.
 const slots = [0, 2, 4, 3, 1, 5, 6];
@@ -36,6 +34,19 @@ export default function FolderStack({ work }) {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, []);
+
+  // Arriving on a role's link (/work-experience/#kpack, from the menu bar's outline): open its
+  // folder at that role's page. The effect below then scrolls the folder into view.
+  useEffect(() => {
+    const anchor = decodeURIComponent(window.location.hash.slice(1));
+    if (!anchor) return;
+    work.forEach((w, i) => {
+      const k = w.roles.findIndex((r) => r.anchor === anchor);
+      if (k === -1) return;
+      setOpen(i);
+      setPage(k);
+    });
+  }, [work]);
 
   const toggle = (i) => {
     setOpen((cur) => (cur === i ? null : i));
@@ -81,7 +92,7 @@ export default function FolderStack({ work }) {
         const edge = slot === 0 ? ' wf-at-start' : slot === n - 1 ? ' wf-at-end' : '';
         const top = isOpen ? page : 0;
         return (
-          <li key={w.org} className={`wf wf-${faces[i % faces.length]}${edge}${isOpen ? ' is-open' : ''}`} style={{ '--i': i, '--slot': slot }}>
+          <li key={w.org} className={`wf${edge}${isOpen ? ' is-open' : ''}`} style={{ '--i': i, '--slot': slot }}>
             <h2 className="wf-tabrow">
               <button type="button" className="wf-tab" aria-expanded={isOpen} aria-controls={id} onClick={() => toggle(i)}>
                 {w.org}

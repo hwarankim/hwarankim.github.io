@@ -6,13 +6,12 @@ export const metadata = { title: 'About me' };
 
 export default function AboutMe() {
   return (
-    <>
+    <div className="page-about">
       <TopBar current="/about-me/" />
       <main>
         <FolderHero
           title="About me"
           bg="hanRiver"
-          tone="bone"
           sentence="Marketing first, then law school. A short note on who I am and where I am headed."
           actions={
             <>
@@ -58,6 +57,6 @@ export default function AboutMe() {
         <Coupon />
       </main>
       <FolderBack current="/about-me/" stamp="namsan" credits={['hanRiver', 'belltower', 'snuGate']} />
-    </>
+    </div>
   );
 }

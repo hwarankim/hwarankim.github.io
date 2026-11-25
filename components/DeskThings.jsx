@@ -1,15 +1,19 @@
 // Things left on the Work page's desk. Each is drawn as a real object under one light, from the top
 // left: lit faces are pale, faces turned away are darker, and metal and plastic catch a highlight.
 // All decoration. `id` keeps each drawing's shading definitions apart when one is used twice.
+// Painted, paper and plastic parts are shades of the site's tokens; metal, graphite, coffee and
+// the white of a highlight keep their own colors.
+
+const mix = (token, pct, toward = 'white') => `color-mix(in srgb, var(--${token}) ${pct}%, ${toward})`;
 
 export function Pencil({ className, id = 'pencil' }) {
   return (
     <svg className={className} viewBox="0 0 340 22" width="340" height="22" aria-hidden="true">
       <defs>
         <linearGradient id={`${id}-rub`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#E9CFC0" />
-          <stop offset="0.45" stopColor="#D8B6A4" />
-          <stop offset="1" stopColor="#B88E7A" />
+          <stop offset="0" stopColor={mix('folder-5', 30)} />
+          <stop offset="0.45" stopColor={mix('folder-5', 45)} />
+          <stop offset="1" stopColor={mix('folder-5', 70)} />
         </linearGradient>
         <linearGradient id={`${id}-tin`} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#F5F2EC" />
@@ -18,8 +22,8 @@ export function Pencil({ className, id = 'pencil' }) {
           <stop offset="1" stopColor="#857F77" />
         </linearGradient>
         <linearGradient id={`${id}-wood`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#F2DEC4" />
-          <stop offset="1" stopColor="#C9A27A" />
+          <stop offset="0" stopColor={mix('folder-4', 55)} />
+          <stop offset="1" stopColor={mix('folder-5', 60)} />
         </linearGradient>
       </defs>
       <rect x="0" y="3" width="28" height="16" rx="4" fill={`url(#${id}-rub)`} />
@@ -27,14 +31,14 @@ export function Pencil({ className, id = 'pencil' }) {
       <path d="M29 2v18M34 2v18M39 2v18" stroke="#6F6A63" strokeOpacity="0.5" />
       <path d="M30 2v18M35 2v18M40 2v18" stroke="#FFFFFF" strokeOpacity="0.6" />
       {/* three of the six painted faces show: the top one catches the light */}
-      <rect x="46" y="2" width="242" height="6" fill="#C2D2E7" />
-      <rect x="46" y="8" width="242" height="6" fill="var(--tint)" />
-      <rect x="46" y="14" width="242" height="6" fill="#7D93B2" />
+      <rect x="46" y="2" width="242" height="6" fill={mix('detail', 40)} />
+      <rect x="46" y="8" width="242" height="6" fill="var(--detail)" />
+      <rect x="46" y="14" width="242" height="6" fill={mix('detail', 80, 'black')} />
       <path d="M46 8H288" stroke="#FFFFFF" strokeOpacity="0.5" />
-      <path d="M46 14H288" stroke="#5E7290" strokeOpacity="0.4" />
+      <path d="M46 14H288" stroke={mix('detail', 60, 'black')} strokeOpacity="0.4" />
       <path d="M288 2L318 11L288 20Z" fill={`url(#${id}-wood)`} />
-      <path d="M288 2q4 3 0 6q4 3 0 6q4 3 0 6" fill="#9FB4D0" />
-      <path d="M294 6L312 10M294 15L310 12" stroke="#B48A62" strokeOpacity="0.35" />
+      <path d="M288 2q4 3 0 6q4 3 0 6q4 3 0 6" fill={mix('detail', 70)} />
+      <path d="M294 6L312 10M294 15L310 12" stroke="var(--folder-5)" strokeOpacity="0.35" />
       <path d="M311 8.9L340 11L311 13.1Z" fill="#3B4048" />
       <path d="M312 9.6L336 10.8" stroke="#9AA0A8" strokeOpacity="0.7" strokeWidth="0.8" />
     </svg>
@@ -117,12 +121,12 @@ export function Mug({ className, id = 'mug' }) {
       <defs>
         <radialGradient id={`${id}-glaze`} cx="0.38" cy="0.34" r="0.7">
           <stop offset="0" stopColor="#FFFFFF" />
-          <stop offset="0.62" stopColor="#F4F0EA" />
-          <stop offset="1" stopColor="#D6CEC3" />
+          <stop offset="0.62" stopColor={mix('surface', 60)} />
+          <stop offset="1" stopColor="var(--folder-4)" />
         </radialGradient>
         <linearGradient id={`${id}-wall`} x1="0.15" y1="0.15" x2="0.85" y2="0.85">
-          <stop offset="0" stopColor="#BDB3A6" />
-          <stop offset="1" stopColor="#FBF8F3" />
+          <stop offset="0" stopColor={mix('folder-4', 85, 'black')} />
+          <stop offset="1" stopColor="var(--bg)" />
         </linearGradient>
         <radialGradient id={`${id}-coffee`} cx="0.56" cy="0.58" r="0.56">
           <stop offset="0" stopColor="#2A160C" />
@@ -142,7 +146,7 @@ export function Mug({ className, id = 'mug' }) {
         <filter id={`${id}-crisp`}><feGaussianBlur stdDeviation="0.7" /></filter>
         <linearGradient id={`${id}-handle`} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#FFFFFF" />
-          <stop offset="1" stopColor="#CFC6BA" />
+          <stop offset="1" stopColor="var(--folder-4)" />
         </linearGradient>
         <filter id={`${id}-soft`}><feGaussianBlur stdDeviation="3" /></filter>
         <clipPath id={`${id}-cup`}><circle cx="86" cy="90" r="62" /></clipPath>
@@ -184,25 +188,25 @@ export function Ruler({ className, id = 'ruler' }) {
     <svg className={className} viewBox="0 0 440 46" width="440" height="46" aria-hidden="true">
       <defs>
         <linearGradient id={`${id}-acrylic`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#F4F8FC" stopOpacity="0.85" />
-          <stop offset="0.5" stopColor="#DCE4EE" stopOpacity="0.55" />
-          <stop offset="1" stopColor="#C3D0E0" stopOpacity="0.7" />
+          <stop offset="0" stopColor={mix('note', 40)} stopOpacity="0.85" />
+          <stop offset="0.5" stopColor="var(--note)" stopOpacity="0.55" />
+          <stop offset="1" stopColor={mix('detail', 25, 'var(--note)')} stopOpacity="0.7" />
         </linearGradient>
       </defs>
       <rect width="440" height="46" rx="3" fill={`url(#${id}-acrylic)`} />
       <path d="M3 1.2H437" stroke="#FFFFFF" strokeWidth="1.5" />
-      <path d="M3 45H437" stroke="#8EA2BD" strokeOpacity="0.8" />
+      <path d="M3 45H437" stroke={mix('detail', 65)} strokeOpacity="0.8" />
       {ticks.map((i) => (
-        <path key={i} d={`M${20 + i * 10} 1v${i % 10 === 0 ? 17 : i % 5 === 0 ? 12 : 7}`} stroke="var(--ink)" strokeOpacity="0.75" />
+        <path key={i} d={`M${20 + i * 10} 1v${i % 10 === 0 ? 17 : i % 5 === 0 ? 12 : 7}`} stroke="var(--text)" strokeOpacity="0.75" />
       ))}
       {[0, 1, 2, 3, 4].map((n) => (
-        <text key={n} x={20 + n * 100} y="32" textAnchor="middle" fontSize="11" fill="var(--ink)" fillOpacity="0.85">{n * 10}</text>
+        <text key={n} x={20 + n * 100} y="32" textAnchor="middle" fontSize="11" fill="var(--text)" fillOpacity="0.85">{n * 10}</text>
       ))}
     </svg>
   );
 }
 
-// A periwinkle highlighter with its cap posted on the end. Round barrel, so the light runs along it
+// A blue highlighter with its cap posted on the end. Round barrel, so the light runs along it
 // in a band; a ribbed grip and pocket clip on the cap, the moulding seam, a ridged nose and a felt
 // chisel tip. The print on the barrel is a made-up maker, not a real brand.
 export function Marker({ className, id = 'marker' }) {
@@ -211,12 +215,12 @@ export function Marker({ className, id = 'marker' }) {
     <svg className={className} viewBox="0 0 282 30" width="282" height="30" aria-hidden="true">
       <defs>
         <linearGradient id={`${id}-barrel`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#71879F" />
-          <stop offset="0.16" stopColor="#B7C8DE" />
-          <stop offset="0.26" stopColor="#E3EBF5" />
-          <stop offset="0.42" stopColor="#A7BBD5" />
-          <stop offset="0.8" stopColor="#7E95B5" />
-          <stop offset="1" stopColor="#5A7093" />
+          <stop offset="0" stopColor={mix('detail', 85)} />
+          <stop offset="0.16" stopColor={mix('detail', 40)} />
+          <stop offset="0.26" stopColor={mix('detail', 15)} />
+          <stop offset="0.42" stopColor={mix('detail', 50)} />
+          <stop offset="0.8" stopColor={mix('detail', 75)} />
+          <stop offset="1" stopColor={mix('detail', 90, 'black')} />
         </linearGradient>
         <linearGradient id={`${id}-cap`} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#3F4E5E" />
@@ -231,9 +235,9 @@ export function Marker({ className, id = 'marker' }) {
           <stop offset="1" stopColor="#2E3945" />
         </linearGradient>
         <linearGradient id={`${id}-nose`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#5D7394" />
-          <stop offset="0.3" stopColor="#B4C4DA" />
-          <stop offset="1" stopColor="#4B6082" />
+          <stop offset="0" stopColor={mix('detail', 90)} />
+          <stop offset="0.3" stopColor={mix('detail', 40)} />
+          <stop offset="1" stopColor={mix('detail', 85, 'black')} />
         </linearGradient>
         <filter id={`${id}-felt`} x="0" y="0" width="100%" height="100%">
           <feTurbulence type="fractalNoise" baseFrequency="1.4 0.35" numOctaves="2" seed="2" result="n" />
@@ -246,10 +250,10 @@ export function Marker({ className, id = 'marker' }) {
 
       {/* barrel */}
       <rect x="68" y="6" width="190" height="20" rx="5.5" fill={`url(#${id}-barrel)`} />
-      <path d="M76 19.4H254" stroke="#566C8C" strokeOpacity="0.35" strokeWidth="0.5" />
+      <path d="M76 19.4H254" stroke={mix('detail', 90, 'black')} strokeOpacity="0.35" strokeWidth="0.5" />
       <path d="M76 19.9H254" stroke="#FFFFFF" strokeOpacity="0.18" strokeWidth="0.4" />
       <path d="M78 9.6H252" stroke="#FFFFFF" strokeOpacity="0.75" strokeWidth="1.1" strokeLinecap="round" filter={`url(#${id}-gloss)`} />
-      <path d="M80 24.2H250" stroke="#C9D6E8" strokeOpacity="0.35" strokeWidth="0.6" />
+      <path d="M80 24.2H250" stroke={mix('detail', 30)} strokeOpacity="0.35" strokeWidth="0.6" />
       {/* the print, pad-printed along the barrel */}
       <g fill="#24303C" fillOpacity="0.78" fontFamily="'Helvetica Neue', Arial, sans-serif">
         <text x="112" y="18.2" fontSize="6.4" fontWeight="700" letterSpacing="1.1">SOFT LINER</text>
@@ -263,12 +267,12 @@ export function Marker({ className, id = 'marker' }) {
       <path d="M256 7.5L268 10.5V21.5L256 24.5Z" fill={`url(#${id}-nose)`} />
       {[259, 261.8, 264.6].map((x) => (
         <g key={x}>
-          <path d={`M${x} ${8.3 + (x - 256) * 0.25}V${23.7 - (x - 256) * 0.25}`} stroke="#3B4C66" strokeOpacity="0.55" strokeWidth="0.8" />
+          <path d={`M${x} ${8.3 + (x - 256) * 0.25}V${23.7 - (x - 256) * 0.25}`} stroke={mix('detail', 60, 'black')} strokeOpacity="0.55" strokeWidth="0.8" />
           <path d={`M${x + 0.8} ${8.5 + (x - 256) * 0.25}V${23.5 - (x - 256) * 0.25}`} stroke="#FFFFFF" strokeOpacity="0.35" strokeWidth="0.4" />
         </g>
       ))}
-      <path d="M268 11.8L278 14.3L280 16L278 18.6L268 20.2Z" fill="#7189AC" filter={`url(#${id}-felt)`} />
-      <path d="M268 11.8L278 14.3L280 16" fill="none" stroke="#C6D3E5" strokeOpacity="0.6" strokeWidth="0.6" />
+      <path d="M268 11.8L278 14.3L280 16L278 18.6L268 20.2Z" fill={mix('detail', 85)} filter={`url(#${id}-felt)`} />
+      <path d="M268 11.8L278 14.3L280 16" fill="none" stroke={mix('detail', 30)} strokeOpacity="0.6" strokeWidth="0.6" />
 
       {/* the cap, posted on the back end: rounded crown, ribbed grip, pocket clip */}
       <path d="M0 11a7 7 0 0 1 7-7H80V28H7A7 7 0 0 1 0 21Z" fill={`url(#${id}-cap)`} />
@@ -295,16 +299,16 @@ export function Eraser({ className, id = 'eraser' }) {
       <defs>
         <linearGradient id={`${id}-vinyl`} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#FFFFFF" />
-          <stop offset="1" stopColor="#DDD7CE" />
+          <stop offset="1" stopColor={mix('folder-4', 70)} />
         </linearGradient>
         <linearGradient id={`${id}-sleeve`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#B5C6DD" />
-          <stop offset="1" stopColor="#8299B8" />
+          <stop offset="0" stopColor={mix('detail', 40)} />
+          <stop offset="1" stopColor={mix('detail', 75)} />
         </linearGradient>
       </defs>
       <rect x="0" y="2" width="96" height="36" rx="5" fill={`url(#${id}-vinyl)`} />
       <rect x="32" y="1" width="64" height="38" fill={`url(#${id}-sleeve)`} />
-      <rect x="32" y="15" width="64" height="9" fill="var(--ink)" fillOpacity="0.55" />
+      <rect x="32" y="15" width="64" height="9" fill="var(--text)" fillOpacity="0.55" />
       <path d="M32 1.6H96" stroke="#FFFFFF" strokeOpacity="0.5" />
     </svg>
   );
@@ -322,21 +326,21 @@ export function Envelope({ className, id = 'envelope' }) {
           <feMerge><feMergeNode in="SourceGraphic" /><feMergeNode in="fibres" /></feMerge>
         </filter>
         <linearGradient id={`${id}-flap`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#DCC3AF" />
-          <stop offset="1" stopColor="#CDAF98" />
+          <stop offset="0" stopColor={mix('folder-4', 80)} />
+          <stop offset="1" stopColor="var(--folder-4)" />
         </linearGradient>
       </defs>
       <g filter={`url(#${id}-fibre)`}>
-        <rect width="380" height="240" rx="3" fill="#D2B8A3" />
-        <path d="M0 240L152 116L228 116L380 240Z" fill="#C9AC95" />
+        <rect width="380" height="240" rx="3" fill="var(--folder-4)" />
+        <path d="M0 240L152 116L228 116L380 240Z" fill={mix('folder-4', 90, 'black')} />
         <path d="M0 0L190 128L380 0Z" fill={`url(#${id}-flap)`} />
       </g>
       <path d="M0 0L190 128L380 0" fill="none" stroke="#FFFFFF" strokeOpacity="0.35" strokeWidth="1.5" />
-      <path d="M2 238L152 117M378 238L228 117" stroke="#8C6A52" strokeOpacity="0.28" strokeWidth="1.5" />
-      <rect x="308" y="146" width="50" height="60" fill="#FAF7F2" />
-      <rect x="313" y="151" width="40" height="50" fill="var(--tint)" />
-      <path d="M318 186c8-10 14 6 22-4s10 4 13-2" fill="none" stroke="var(--ink)" strokeOpacity="0.5" strokeWidth="1.5" />
-      <path d="M308 146h50v60h-50Z" fill="none" stroke="#D2B8A3" strokeWidth="3" strokeDasharray="2 3.2" />
+      <path d="M2 238L152 117M378 238L228 117" stroke="var(--folder-5)" strokeOpacity="0.28" strokeWidth="1.5" />
+      <rect x="308" y="146" width="50" height="60" fill="var(--paper)" />
+      <rect x="313" y="151" width="40" height="50" fill="var(--detail)" />
+      <path d="M318 186c8-10 14 6 22-4s10 4 13-2" fill="none" stroke="var(--text)" strokeOpacity="0.5" strokeWidth="1.5" />
+      <path d="M308 146h50v60h-50Z" fill="none" stroke="var(--folder-4)" strokeWidth="3" strokeDasharray="2 3.2" />
     </svg>
   );
 }
